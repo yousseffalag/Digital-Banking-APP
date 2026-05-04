@@ -1,0 +1,26 @@
+package org.example.entities;
+
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "operations")
+@Data
+@NoArgsConstructor
+public class Operation {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private LocalDateTime date;
+    private Double amount;
+    @Enumerated(EnumType.STRING)
+    private OperationType type;
+    @ManyToOne
+    @JoinColumn(name = "bank_account")
+    private BankAccount bankAccount;
+    private String description;
+}
