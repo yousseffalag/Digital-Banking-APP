@@ -13,7 +13,8 @@ import java.util.UUID;
 @Table(name = "Bank_Accounts")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE",length = 4)
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public abstract class BankAccount {
 

@@ -11,7 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "customers")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Customer {
 
