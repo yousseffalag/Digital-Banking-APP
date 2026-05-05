@@ -3,6 +3,7 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.enums.OperationType;
 
 import java.time.LocalDateTime;
 

@@ -2,9 +2,9 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.enums.AccountStatus;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
