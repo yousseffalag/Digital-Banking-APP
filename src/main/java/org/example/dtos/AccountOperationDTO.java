@@ -3,12 +3,12 @@ package org.example.dtos;
 import lombok.Data;
 import org.example.enums.OperationType;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class AccountOperationDTO {
     private Long id;
-    private LocalDateTime operationDate;
+    private Date operationDate;
     private double amount;
     private OperationType type;
     private String description;

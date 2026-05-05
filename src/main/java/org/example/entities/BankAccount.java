@@ -5,6 +5,7 @@ import lombok.*;
 import org.example.enums.AccountStatus;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,13 +20,12 @@ import java.util.UUID;
 public abstract class BankAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
     private Double balance;
     private String accuracy;
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
-    private LocalDateTime createdAt;
+    private Date createdAt;
     @ManyToOne
     @JoinColumn(name="customer_id")
     private Customer customer;

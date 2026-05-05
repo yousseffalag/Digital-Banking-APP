@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface OperationRepository extends JpaRepository<Operation , Long> {
 
-    List<Operation> findByBankAccountId(UUID accountId);
-    Page<Operation> findByBankAccountId(UUID accountId , Pageable pageable);
+    List<Operation> findByBankAccountId(String accountId);
+    Page<Operation> findByBankAccountId(String accountId , Pageable pageable);
 
 }

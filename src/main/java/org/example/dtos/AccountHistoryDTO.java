@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 public class AccountHistoryDTO {
-    private UUID accountId;
+    private String accountId;
     private double balance;
     private int currentPage;
     private int totalPages;

@@ -3,15 +3,14 @@ package org.example.dtos;
 import lombok.Data;
 import org.example.enums.AccountStatus;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.Date;
 
 @Data
 public class SavingBankAccountDTO extends
         BankAccountDTO {
-    private UUID id;
+    private String id;
     private double balance;
-    private LocalDateTime createdAt;
+    private Date createdAt;
     private AccountStatus status;
     private CustomerDTO customerDTO;
     private double interestRate;

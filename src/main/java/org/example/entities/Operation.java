@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.example.enums.OperationType;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "operations")
@@ -17,7 +17,7 @@ public class Operation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime date;
+    private Date date;
     private Double amount;
     @Enumerated(EnumType.STRING)
     private OperationType type;
