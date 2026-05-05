@@ -22,7 +22,7 @@ public abstract class BankAccount {
     @Id
     private String id;
     private Double balance;
-    private String accuracy;
+    private String currency;
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
     private Date createdAt;
