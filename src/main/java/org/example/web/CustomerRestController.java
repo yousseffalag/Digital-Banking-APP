@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.dtos.CustomerDTO;
 import org.example.exceptions.CustomerNotFoundException;
 import org.example.services.BankAccountService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,23 +18,28 @@ public class CustomerRestController {
 
     private BankAccountService bankAccountService;
     @GetMapping("/customers")
+    @PreAuthorize("hasAuthority('SCOPE_USER')")
     public List<CustomerDTO> customers(){
         return bankAccountService.listCustomers();
     }
     @GetMapping("/customers/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_USER')")
     public CustomerDTO getCustomer(@PathVariable(name = "id") Long customerId) throws CustomerNotFoundException {
         return bankAccountService.getCustomer(customerId);
     }
     @PostMapping("/customers")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
         return bankAccountService.saveCustomer(customerDTO);
     }
     @PutMapping("/customers/{customerId}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public CustomerDTO updateCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO){
         customerDTO.setId(customerId);
         return bankAccountService.updateCustomer(customerDTO);
     }
     @DeleteMapping("/customers/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void deleteCustomer(@PathVariable Long id){
         bankAccountService.deleteCustomer(id);
     }
