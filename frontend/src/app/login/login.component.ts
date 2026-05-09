@@ -10,18 +10,18 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  formLogin! : FormGroup
+  loginFormGroup! : FormGroup
   constructor(private fb : FormBuilder, private authService : AuthService, private router : Router) { }
 
   ngOnInit(): void {
-    this.formLogin = this.fb.group({
+    this.loginFormGroup = this.fb.group({
       username : this.fb.control(""),
       password : this.fb.control("")
     })
   }
 
   handleLogin(){
-    this.authService.login(this.formLogin.value.username, this.formLogin.value.password)
+    this.authService.login(this.loginFormGroup.value.username, this.loginFormGroup.value.password)
     .subscribe({
       next : (data) => {
         this.authService.loadProfile(data);
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
         console.log(err);
       }
     });
-    console.log(this.formLogin.value);
+    console.log(this.loginFormGroup.value);
   }
 
 }

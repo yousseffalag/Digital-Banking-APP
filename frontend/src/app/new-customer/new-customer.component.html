@@ -1,30 +1,50 @@
-<div class="container">
-  <div class="card col-md-6 offset-3 mt-2">
-    <div class="card-header">New Customer</div>
-    <div class="card-body">
-      <form [formGroup]="newCustomerFormGroup" (ngSubmit)="handleSaveCustomer()">
-        <div class="mb-3">
-          <label class="form-label">Name:</label>
-          <input type="text" formControlName="name" class="form-control">
-          <span class="text-danger"
-                *ngIf="newCustomerFormGroup.controls['name'].touched
-                && newCustomerFormGroup.controls['name'].errors
-                && newCustomerFormGroup.controls['name'].errors!['required']">
-            Name is Required
-          </span>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-0 pt-4 px-4">
+          <h4 class="fw-bold mb-0">Create New Customer</h4>
+          <p class="text-secondary small">Add a new client to the banking system</p>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Email:</label>
-          <input type="text" formControlName="email" class="form-control">
-          <span class="text-danger"
-                *ngIf="newCustomerFormGroup.controls['email'].touched
-                && newCustomerFormGroup.controls['email'].errors
-                && newCustomerFormGroup.controls['email'].errors!['email']">
-            Email is not valid
-          </span>
+        <div class="card-body p-4">
+          <form [formGroup]="newCustomerFormGroup" (ngSubmit)="handleSaveCustomer()">
+            <div class="mb-4">
+              <label class="form-label small fw-bold text-uppercase text-secondary">Full Name</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                <input type="text" formControlName="name" class="form-control bg-light" placeholder="e.g. John Doe">
+              </div>
+              <div class="text-danger small mt-1"
+                    *ngIf="newCustomerFormGroup.controls['name'].touched
+                    && newCustomerFormGroup.controls['name'].errors
+                    && newCustomerFormGroup.controls['name'].errors!['required']">
+                <i class="bi bi-exclamation-circle me-1"></i> Name is required
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <label class="form-label small fw-bold text-uppercase text-secondary">Email Address</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                <input type="text" formControlName="email" class="form-control bg-light" placeholder="name@example.com">
+              </div>
+              <div class="text-danger small mt-1"
+                    *ngIf="newCustomerFormGroup.controls['email'].touched
+                    && newCustomerFormGroup.controls['email'].errors
+                    && newCustomerFormGroup.controls['email'].errors!['email']">
+                <i class="bi bi-exclamation-circle me-1"></i> Please enter a valid email address
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button [disabled]="!newCustomerFormGroup.valid" class="btn btn-primary py-3 fw-bold shadow-sm">
+                <i class="bi bi-check2-circle me-2"></i> Save Customer
+              </button>
+              <button type="button" routerLink="/admin/customers" class="btn btn-light py-2 small">Cancel</button>
+            </div>
+          </form>
         </div>
-        <button [disabled]="!newCustomerFormGroup.valid" class="btn btn-info">Save</button>
-      </form>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,26 @@
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Change Password</div>
+                <div class="card-body">
+                    <form [formGroup]="passwordFormGroup" (ngSubmit)="handleChangePassword()">
+                        <div class="mb-3">
+                            <label class="form-label">Old Password</label>
+                            <input type="password" formControlName="oldPassword" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">New Password</label>
+                            <input type="password" formControlName="newPassword" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirm New Password</label>
+                            <input type="password" formControlName="confirmPassword" class="form-control">
+                        </div>
+                        <button [disabled]="!passwordFormGroup.valid" class="btn btn-primary">Update Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
