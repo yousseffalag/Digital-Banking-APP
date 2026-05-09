@@ -51,4 +51,15 @@ export class AuthService {
 
   }
 
+  public changePassword(oldPassword: string, newPassword: string, confirmPassword: string){
+    let options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
+    };
+    let params = new HttpParams()
+        .set('oldPassword', oldPassword)
+        .set('newPassword', newPassword)
+        .set('confirmPassword', confirmPassword);
+    return this.http.post('http://localhost:8085/auth/changePassword',params,options);
+  }
+
 }

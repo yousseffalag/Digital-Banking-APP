@@ -26,4 +26,18 @@ export class AccountsService {
     let data={accountSource, accountDestination, amount, description }
     return this.http.post(environment.backendHost+"/accounts/transfer",data);
   }
+  public getAccountsByCustomer(customerId : number):Observable<any>{
+    return this.http.get(environment.backendHost+"/customers/"+customerId+"/accounts");
+  }
+  public saveCurrentAccount(initialBalance : number, overDraft : number, customerId : number){
+    let data={initialBalance, overDraft, customerId}
+    return this.http.post(environment.backendHost+"/accounts/current",data);
+  }
+  public saveSavingAccount(initialBalance : number, interestRate : number, customerId : number){
+    let data={initialBalance, interestRate, customerId}
+    return this.http.post(environment.backendHost+"/accounts/saving",data);
+  }
+  public updateStatus(accountId : string, status : string){
+    return this.http.put(environment.backendHost+"/accounts/"+accountId+"/status?status="+status, {});
+  }
 }
