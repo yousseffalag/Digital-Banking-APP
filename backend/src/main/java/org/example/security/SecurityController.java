@@ -27,6 +27,13 @@ public class SecurityController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtEncoder jwtEncoder;
+    @Autowired
+    private org.example.security.service.AccountService accountService;
+
+    @PostMapping("/changePassword")
+    public void changePassword(Authentication authentication, String oldPassword, String newPassword, String confirmPassword){
+        accountService.changePassword(authentication.getName(), oldPassword, newPassword, confirmPassword);
+    }
 
     @GetMapping("/profile")
     public Authentication authentication(Authentication authentication){

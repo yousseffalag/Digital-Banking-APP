@@ -3,6 +3,7 @@ package org.example.services;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.example.dtos.*;
 import org.example.entities.*;
 import org.example.enums.OperationType;
@@ -33,10 +34,16 @@ public class BankAccountServiceImpl implements BankAccountService {
     private OperationRepository accountOperationRepository;
     private BankAccountMapperImpl dtoMapper;
 
+    private String getCurrentUser() {
+        if (SecurityContextHolder.getContext().getAuthentication() == null) return "System";
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
     @Override
     public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
         log.info("Saving new Customer");
         Customer customer=dtoMapper.fromCustomerDTO(customerDTO);
+        customer.setCreatedBy(getCurrentUser());
         Customer savedCustomer = customerRepository.save(customer);
         return dtoMapper.fromCustomer(savedCustomer);
     }
@@ -53,6 +60,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         currentAccount.setBalance(initialBalance);
         currentAccount.setOverDraft(overDraft);
         currentAccount.setCustomer(customer);
+        currentAccount.setCreatedBy(getCurrentUser());
         CurrentAccount savedBankAccount = bankAccountRepository.save(currentAccount);
         return dtoMapper.fromCurrentBankAccount(savedBankAccount);
     }
@@ -68,6 +76,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         savingAccount.setCreatedAt(new Date()); savingAccount.setBalance(initialBalance);
         savingAccount.setInterestRate(interestRate);
         savingAccount.setCustomer(customer);
+        savingAccount.setCreatedBy(getCurrentUser());
         SavingAccount savedBankAccount = bankAccountRepository.save(savingAccount);
         return dtoMapper.fromSavingBankAccount(savedBankAccount);
     }
@@ -106,6 +115,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         accountOperation.setType(OperationType.DEBIT);
         accountOperation.setAmount(amount); accountOperation.setDescription(description);
         accountOperation.setDate(new Date()); accountOperation.setBankAccount(bankAccount);
+        accountOperation.setCreatedBy(getCurrentUser());
         accountOperationRepository.save(accountOperation); bankAccount.setBalance(bankAccount.getBalance()-amount);
         bankAccountRepository.save(bankAccount);
     }
@@ -121,6 +131,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         accountOperation.setDescription(description);
         accountOperation.setDate(new Date());
         accountOperation.setBankAccount(bankAccount);
+        accountOperation.setCreatedBy(getCurrentUser());
         accountOperationRepository.save(accountOperation);
         bankAccount.setBalance(bankAccount.getBalance()+amount);
         bankAccountRepository.save(bankAccount);
@@ -191,4 +202,30 @@ public class BankAccountServiceImpl implements BankAccountService {
         return accountHistoryDTO;
     }
 
+    @Override
+    public List<CustomerDTO> searchCustomers(String keyword) {
+        List<Customer> customers=customerRepository.searchCustomer("%"+keyword+"%");
+        List<CustomerDTO> customerDTOS = customers.stream().map(cust -> dtoMapper.fromCustomer(cust)).collect(Collectors.toList());
+        return customerDTOS;
+    }
+
+    @Override
+    public List<BankAccountDTO> getAccountsByCustomer(Long customerId) {
+        List<BankAccount> bankAccounts = bankAccountRepository.findByCustomerId(customerId);
+        return bankAccounts.stream().map(bankAccount -> {
+            if (bankAccount instanceof SavingAccount) {
+                return dtoMapper.fromSavingBankAccount((SavingAccount) bankAccount);
+            } else {
+                return dtoMapper.fromCurrentBankAccount((CurrentAccount) bankAccount);
+            }
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateAccountStatus(String accountId, org.example.enums.AccountStatus status) throws BankAccountNotFoundException {
+        BankAccount bankAccount = bankAccountRepository.findById(accountId).orElse(null);
+        if (bankAccount == null) throw new BankAccountNotFoundException("Account not found");
+        bankAccount.setStatus(status);
+        bankAccountRepository.save(bankAccount);
+    }
 }

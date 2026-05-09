@@ -3,6 +3,8 @@ package org.example.web;
 import org.example.dtos.AccountHistoryDTO;
 import org.example.dtos.AccountOperationDTO;
 import org.example.dtos.BankAccountDTO;
+import org.example.dtos.CurrentBankAccountDTO;
+import org.example.dtos.SavingBankAccountDTO;
 import org.example.exceptions.BankAccountNotFoundException;
 import org.example.services.BankAccountService;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +37,32 @@ public class BankAccountRestAPI {
             @RequestParam(name="page",defaultValue = "0") int page,
             @RequestParam(name="size",defaultValue = "5")int size) throws BankAccountNotFoundException {
         return bankAccountService.getAccountHistory(accountId,page,size);
+    }
+
+    @GetMapping("/customers/{customerId}/accounts")
+    public List<BankAccountDTO> getAccountsByCustomer(@PathVariable Long customerId){
+        return bankAccountService.getAccountsByCustomer(customerId);
+    }
+    @PostMapping("/accounts/current")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public CurrentBankAccountDTO saveCurrentAccount(@RequestBody java.util.Map<String, Object> data) throws org.example.exceptions.CustomerNotFoundException {
+        double initialBalance = Double.parseDouble(data.get("initialBalance").toString());
+        double overDraft = Double.parseDouble(data.get("overDraft").toString());
+        Long customerId = Long.parseLong(data.get("customerId").toString());
+        return bankAccountService.saveCurrentBankAccount(initialBalance, overDraft, customerId);
+    }
+    @PostMapping("/accounts/saving")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public SavingBankAccountDTO saveSavingAccount(@RequestBody java.util.Map<String, Object> data) throws org.example.exceptions.CustomerNotFoundException {
+        double initialBalance = Double.parseDouble(data.get("initialBalance").toString());
+        double interestRate = Double.parseDouble(data.get("interestRate").toString());
+        Long customerId = Long.parseLong(data.get("customerId").toString());
+        return bankAccountService.saveSavingBankAccount(initialBalance, interestRate, customerId);
+    }
+
+    @PutMapping("/accounts/{accountId}/status")
+    @org.springframework.security.access.prepost.PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public void changeAccountStatus(@PathVariable String accountId, @RequestParam(name = "status") String status) throws BankAccountNotFoundException {
+        bankAccountService.updateAccountStatus(accountId, org.example.enums.AccountStatus.valueOf(status));
     }
 }

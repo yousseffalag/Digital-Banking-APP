@@ -41,20 +41,6 @@ public class SecurityConfig {
     private String secretKey;
 
     @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
-        PasswordEncoder passwordEncoder = passwordEncoder();
-        return new InMemoryUserDetailsManager(
-                User.withUsername("Ussef").
-                        password(passwordEncoder.encode("1234"))
-                        .authorities("USER")
-                        .build(),
-                User.withUsername("Achraf")
-                        .password(passwordEncoder.encode("1234"))
-                        .authorities("USER","ADMIN")
-                        .build()
-        );
-    }
-
     public PasswordEncoder passwordEncoder () {
         return new BCryptPasswordEncoder();
     }
