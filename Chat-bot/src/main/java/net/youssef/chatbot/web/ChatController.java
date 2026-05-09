@@ -15,12 +15,16 @@ import java.awt.*;
 @CrossOrigin("*")
 public class ChatController {
     private AIAgent aiAgent;
+    private net.youssef.chatbot.integration.BankingCommandHandler bankingCommandHandler;
 
-    public ChatController(AIAgent aiAgent) {
+    public ChatController(AIAgent aiAgent, net.youssef.chatbot.integration.BankingCommandHandler bankingCommandHandler) {
         this.aiAgent = aiAgent;
+        this.bankingCommandHandler = bankingCommandHandler;
     }
     @GetMapping(value = "/chat", produces = MediaType.TEXT_PLAIN_VALUE)
     public String chat(@RequestParam(name = "query") String query) {
+        String commandResult = bankingCommandHandler.handle(query);
+        if (commandResult != null) return commandResult;
         return aiAgent.askAgent(query);
     }
 

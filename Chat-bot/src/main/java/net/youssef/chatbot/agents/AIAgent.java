@@ -28,9 +28,11 @@ public class AIAgent {
 
         ChatClient.Builder chatBuilder = builder
                 .defaultSystem("""
-                        Vous un assistant qui se charge de répondre aux question
-                        de l'utilisateur en fonction du contexte fourni.
-                        Si aucun contexte n'est fourni, répond avec JE NE SAIS PAS         
+                        You are a professional banking assistant.
+                        You help users with their digital banking queries.
+                        If the user asks a general question, answer it politely.
+                        If they ask about banking operations you cannot handle, 
+                        suggest using the available commands like /help.
                         """)
                 .defaultAdvisors(
                         MessageChatMemoryAdvisor.builder(memory).build());

@@ -1,0 +1,25 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-info text-white">Banking Assistant (AI)</div>
+        <div class="card-body chat-container" #chatContainer>
+            <div *ngFor="let msg of messages" [ngClass]="{'text-end': msg.type === 'user', 'text-start': msg.type === 'bot'}">
+                <div [ngClass]="{'bg-primary text-white': msg.type === 'user', 'bg-light': msg.type === 'bot'}" class="d-inline-block p-2 m-1 rounded shadow-sm">
+                    <strong>{{msg.type === 'user' ? 'You' : 'Assistant'}}:</strong> {{msg.content}}
+                </div>
+            </div>
+            <div *ngIf="loading" class="text-start">
+                <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div> Thinking...
+            </div>
+        </div>
+        <div class="card-footer">
+            <form (ngSubmit)="sendMessage()">
+                <div class="input-group">
+                    <input type="text" [(ngModel)]="query" name="query" class="form-control" placeholder="Ask me about your accounts, customers, etc.">
+                    <button class="btn btn-info text-white" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
