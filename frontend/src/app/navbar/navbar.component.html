@@ -1,40 +1,51 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3" style="background-color: #1a1c23;">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/admin/dashboard">
+      <i class="bi bi-bank2 me-2 fs-3 text-primary"></i>
+      <span class="fw-bold tracking-tight">DIGITAL BANKING</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link px-3" routerLinkActive="active text-primary" routerLink="/admin/dashboard">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/admin/accounts">Accounts</a>
+          <a class="nav-link px-3" routerLinkActive="active text-primary" routerLink="/admin/accounts">Accounts</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle px-3" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
             Customers
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" routerLink="/admin/customers">Search customers</a></li>
+          <ul class="dropdown-menu border-0 shadow-lg mt-3" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item py-2" routerLink="/admin/customers"><i class="bi bi-search me-2"></i> Search</a></li>
             <li *ngIf="authService.roles?.includes('ADMIN')">
-              <a class="dropdown-item" routerLink="/admin/new-customer">New customer</a>
+              <a class="dropdown-item py-2" routerLink="/admin/new-customer"><i class="bi bi-plus-circle me-2"></i> New Customer</a>
             </li>
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <a class="nav-link px-3" routerLinkActive="active text-primary" routerLink="/admin/chatbot">AI Assistant</a>
         </li>
       </ul>
-      <ul class="navbar" *ngIf="authService.isAuthenticated == true">
-          <li class="nav-item">
-            <a class="nav-link" href="#">{{ authService.username }}</a>
-          </li>
-          <li class="nav-item">
-            <button class="btn btn-success" (click)="handleLogout()" >Logout</button>
-          </li>
-      </ul>
+      <div class="d-flex align-items-center" *ngIf="authService.isAuthenticated == true">
+          <div class="me-3 text-light opacity-75">
+            <small>Welcome back,</small>
+            <div class="fw-bold">{{ authService.username }}</div>
+          </div>
+          <div class="dropdown">
+            <button class="btn btn-link p-0" id="profileDropdown" data-bs-toggle="dropdown">
+                <img src="https://ui-avatars.com/api/?name={{authService.username}}&background=4e73df&color=fff" class="rounded-circle shadow-sm" width="40">
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg mt-3">
+                <li><a class="dropdown-item py-2" routerLink="/admin/profile"><i class="bi bi-person me-2"></i> Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><button class="dropdown-item py-2 text-danger" (click)="handleLogout()"><i class="bi bi-box-arrow-right me-2"></i> Logout</button></li>
+            </ul>
+          </div>
+      </div>
     </div>
   </div>
 </nav>
