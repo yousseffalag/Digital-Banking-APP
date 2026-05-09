@@ -7,13 +7,18 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CustomersComponent } from './customers/customers.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { NewCustomerComponent } from './new-customer/new-customer.component';
 import { CustomerAccountsComponent } from './customer-accounts/customer-accounts.component';
 import { LoginComponent } from './login/login.component';
 import { AdminTemplateComponent } from './admin-template/admin-template.component';
 import { AppHttpInterceptor } from './interceptors/app-http.interceptor';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
+import {DashboardComponent} from "./dashboard/dashboard.component";
+import {ProfileComponent} from "./profile/profile.component";
+import {ChatbotComponent} from "./chatbot/chatbot.component";
+import {NgChartsModule} from "ng2-charts";
+import { EditCustomerComponent } from './edit-customer/edit-customer.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +30,19 @@ import { NotAuthorizedComponent } from './not-authorized/not-authorized.componen
     CustomerAccountsComponent,
     LoginComponent,
     AdminTemplateComponent,
-    NotAuthorizedComponent
+    NotAuthorizedComponent,
+    DashboardComponent,
+    ProfileComponent,
+    ChatbotComponent,
+    EditCustomerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    NgChartsModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true}
