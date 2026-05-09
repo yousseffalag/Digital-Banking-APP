@@ -22,8 +22,18 @@ public class EbankingBackendApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(BankAccountService bankAccountService) {
+    CommandLineRunner commandLineRunner(BankAccountService bankAccountService, org.example.security.service.AccountService accountService) {
         return args -> {
+            accountService.addNewRole("USER");
+            accountService.addNewRole("ADMIN");
+
+            accountService.addNewUser("user1", "1234", "user1@gmail.com", "1234");
+            accountService.addNewUser("admin", "1234", "admin@gmail.com", "1234");
+
+            accountService.addRoleToUser("user1", "USER");
+            accountService.addRoleToUser("admin", "USER");
+            accountService.addRoleToUser("admin", "ADMIN");
+
             Stream.of("Hassan", "Imane", "Mohamed").forEach(name -> {
                 CustomerDTO customer = new CustomerDTO();
                 customer.setName(name);

@@ -25,4 +25,5 @@ public class Operation {
     @JoinColumn(name = "bank_account")
     private BankAccount bankAccount;
     private String description;
+    private String createdBy;
 }

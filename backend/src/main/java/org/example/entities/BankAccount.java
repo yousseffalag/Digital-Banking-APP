@@ -26,6 +26,7 @@ public abstract class BankAccount {
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
     private Date createdAt;
+    private String createdBy;
     @ManyToOne
     @JoinColumn(name="customer_id")
     private Customer customer;
