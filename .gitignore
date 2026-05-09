@@ -1,1 +1,7 @@
 .idea/
+mvnw
+mvnw.cmd
+.mvn/
+node_modules/
+target/
+.env
