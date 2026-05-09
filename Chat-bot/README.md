@@ -1,40 +1,98 @@
-# Chat-bot
+# 🤖 Digital Banking Chatbot (Spring AI & Mistral)
 
-This module runs a Telegram chatbot using Spring AI and Mistral.
+<div align="center">
 
-## Setup
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/)
+[![Mistral AI](https://img.shields.io/badge/Mistral%20AI-Integration-orange?style=for-the-badge&logo=ai)](https://mistral.ai/)
+[![Telegram](https://img.shields.io/badge/Telegram-Bot%20API-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://core.telegram.org/bots)
 
-1. Copy `Chat-bot/.env.example` to `Chat-bot/.env`.
-2. Set your own keys and username:
-   - `MISTRAL_API_KEY`
-   - `TELEGRAM_API_KEY`
-   - `TELEGRAM_BOT_USERNAME`
-   - `BACKEND_API_BASE_URL` (for example `http://localhost:8085`)
-3. Run the service from the `Chat-bot` folder:
-   - Windows: `./mvnw.cmd spring-boot:run`
-   - Unix/macOS: `./mvnw spring-boot:run`
+**The intelligent core of the Digital Banking Ecosystem. This microservice connects natural language processing (NLP) to your banking backend.**
+</div>
 
-## Chat commands
+---
 
-Use these commands in Telegram to query your banking backend:
+## 🌟 Overview
 
-- `/accounts` — list your accounts
-- `/account <id>` — show account details
-- `/history <id>` — show recent operations
-- `/customers` — list all customers
-- `/help` — show command help
+The `Chat-bot` module acts as an intelligent agent. Powered by **Mistral AI** and **Spring AI**, it understands natural language queries, fetches live financial data from the Core Banking API, and delivers formatted responses directly to users via **Telegram** and the **Angular Web Interface**.
 
-You can also ask natural language questions like:
-- "what's the balance for hassan"
+---
 
-## Verifying startup
+## ⚙️ How It Works (Architecture)
 
-- Look for Spring Boot startup logs showing `Started ChatBotApplication`.
-- The bot should register successfully; if it fails, you will see a Telegram API exception in the console.
-- If the bot startup is successful, open Telegram and send a message to your bot.
+```mermaid
+sequenceDiagram
+    participant User as User (Web/Telegram)
+    participant Bot as Chatbot Service (8087)
+    participant Core as Core Banking API (8085)
+    participant LLM as Mistral AI (LLM)
 
-## Notes
+    User->>Bot: "What is the balance of Hassan?"
+    Bot->>LLM: Send prompt & available tools/functions
+    LLM-->>Bot: Request data extraction (Function Call)
+    Bot->>Core: GET /customers/search?keyword=Hassan
+    Core-->>Bot: Returns Customer JSON
+    Bot->>LLM: Provide context & JSON data
+    LLM-->>Bot: Generate formatted human response
+    Bot-->>User: "Hassan's total balance is 15,000 DH."
+```
 
-- The `.env` file is ignored by Git and is only for local use.
-- If you prefer, you can export the environment variables instead of using `.env`.
-- The app now reads the API key values and bot username from environment variables and no longer stores your friend's keys in source control.
+---
+
+## 🚀 Features
+
+- **Omnichannel Access**: Fully integrated with the Angular UI via Server-Sent Events (SSE) and Telegram via Long Polling.
+- **Function Calling**: Automatically maps user intent to internal backend APIs (e.g., fetching account history, searching customers).
+- **Direct Commands**: Built-in slash commands for immediate data retrieval without LLM latency.
+- **Multi-lingual Context**: Capable of understanding and responding in French, English, and other languages.
+
+### 💬 Available Direct Commands
+You can bypass natural language and directly use these commands in Telegram or the Web chat:
+- `/accounts` — List all registered accounts.
+- `/account <id>` — Show detailed metrics for a specific account.
+- `/history <id>` — Retrieve the most recent operations for an account.
+- `/customers` — List all customers in the directory.
+- `/help` — Display the command guide.
+
+---
+
+## 🛠️ Setup & Installation
+
+### 1. Environment Configuration
+The application relies on an `.env` file to keep your API keys secure. 
+
+Duplicate the example file and configure your keys:
+```bash
+cp .env.example .env
+```
+
+Edit the `.env` file with your credentials:
+```properties
+MISTRAL_API_KEY=your_mistral_api_key_here
+TELEGRAM_API_KEY=your_telegram_bot_token_here
+TELEGRAM_BOT_USERNAME=your_bot_username
+BACKEND_API_BASE_URL=http://localhost:8085
+```
+
+### 2. Running the Service
+Ensure your **Core Banking Backend** (`localhost:8085`) is already running. Then, start the Chatbot service:
+
+```bash
+# Windows
+./mvnw.cmd spring-boot:run
+
+# macOS / Linux
+./mvnw spring-boot:run
+```
+
+The service will start on **port `8087`**.
+
+### 3. Verification
+- **Console Logs**: Look for `Started ChatBotApplication` and confirmation that the Telegram Long Polling bot has registered successfully.
+- **Testing**: Open your Telegram app, search for your Bot Username, and type `/help` or *"Hello"*.
+
+---
+
+## 🔐 Security Notes
+- The `.env` file is heavily `.gitignore`d to prevent accidental leakage of your Mistral and Telegram API keys.
+- **Never commit your `.env` file to source control.**
+- Ensure your Core Backend `SecurityConfig` allows the Chatbot to execute `GET` requests on `/accounts/**` and `/customers/**`.
