@@ -70,7 +70,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(ar -> ar.requestMatchers(
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
-                        "/swagger-ui.html"
+                        "/swagger-ui.html",
+                        "/accounts/**",
+                        "/customers/**"
                 ).permitAll())
                 .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
                 .oauth2ResourceServer(oa->oa.jwt(Customizer.withDefaults()))
