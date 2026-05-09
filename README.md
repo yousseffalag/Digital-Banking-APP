@@ -1,303 +1,156 @@
-# 🏦 Digital Banking App
+# 🏦 Digital Banking Ecosystem & Intelligent AI Agent
 
-A full-stack digital banking administration platform built with **Spring Boot** (backend) and **Angular** (frontend). It allows admins to manage customers, bank accounts, and financial operations through a clean, responsive interface.
+<div align="center">
 
----
+![Header](./screenshots/localhost_4200_admin_dashboard%20.png)
 
-## 📸 Screenshots
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/)
+[![Angular](https://img.shields.io/badge/Angular-16.2-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.io/)
+[![Mistral AI](https://img.shields.io/badge/Mistral%20AI-Connected-orange?style=for-the-badge&logo=ai)](https://mistral.ai/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 
-| Login | Customers | New Customer |
-|-------|-----------|--------------|
-| ![Login](./screenshots/login.png) | ![Customers](./screenshots/customers.png) | ![New Customer](./screenshots/new-customer.png) |
+**An enterprise-grade financial management platform integrating generative AI, high-performance micro-services architecture, and real-time data visualization.**
 
-| Accounts & Operations | Operations Form |
-|----------------------|-----------------|
-| ![Accounts](./screenshots/accounts.png) | ![Operations](./screenshots/operations.png) |
+[Explore Docs](http://localhost:8085/swagger-ui.html) • [Report Bug](https://github.com/yousseffalag/Digital-Banking-APP/issues) • [Request Feature](https://github.com/yousseffalag/Digital-Banking-APP/issues)
 
----
-
-## 🚀 Features
-
-- 🔐 **Authentication** — Secure admin login with JWT (HS512) via Spring Security
-- 👥 **Customer Management** — List, search, create, update, and delete customers
-- 🏧 **Account Management** — Search accounts by UUID, view balance and paginated transaction history
-- 💸 **Financial Operations** — Perform DEBIT, CREDIT, and TRANSFER operations
-- 📄 **Swagger UI** — Interactive API documentation (OpenAPI 3.0)
-- 🐳 **Docker** — MySQL + phpMyAdmin fully containerized
+</div>
 
 ---
 
-## 🛠️ Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Backend | Java, Spring Boot, Spring Security, Spring Data JPA |
-| Frontend | Angular, TypeScript, Bootstrap |
-| Database | MySQL |
-| API Docs | SpringDoc OpenAPI (Swagger UI) |
-| Containerization | Docker, Docker Compose (DB only) |
-
----
-
-## 📁 Project Structure
-
-```
-Digital-Banking-APP/
-├── backend/
-│   ├── src/main/java/org/example/
-│   │   ├── dtos/           # Data Transfer Objects (CustomerDTO, BankAccountDTO, AccountHistoryDTO, AccountOperationDTO)
-│   │   ├── entities/       # JPA Entities (Customer, BankAccount, Operation)
-│   │   ├── enums/          # OperationType (DEBIT, CREDIT, TRANSFER), AccountStatus
-│   │   ├── exceptions/     # Custom exceptions (CustomerNotFoundException, etc.)
-│   │   ├── mappers/        # Entity <-> DTO mappers
-│   │   ├── repositories/   # Spring Data JPA Repositories
-│   │   ├── security/       # JWT config, SecurityConfig, SecurityController
-│   │   ├── services/       # Business logic interfaces & implementations
-│   │   └── web/            # REST Controllers (CustomerRestController, BankAccountRestApi)
-│   ├── src/main/resources/
-│   │   └── application.properties
-│   ├── docker-compose.yml  # MySQL + phpMyAdmin only
-│   ├── .dockerignore
-│   └── pom.xml
-├── frontend/
-│   ├── src/app/
-│   │   ├── components/
-│   │   ├── services/
-│   │   └── guards/
-│   └── package.json
-└── .gitignore
-```
+## 📖 Table of Contents
+- [Project Overview](#-project-overview)
+- [Key Features](#-key-features)
+- [Architecture](#-architecture)
+- [Visual Showcase](#-visual-showcase)
+- [Tech Stack](#-tech-stack)
+- [Installation](#-installation)
+- [Security](#-security)
+- [Author](#-author)
 
 ---
 
-## 🗂️ Class Diagram
+## 🌟 Project Overview
 
-```
-┌─────────────────────┐         ┌──────────────────────────┐
-│      Customer        │  1    * │       BankAccount         │
-│─────────────────────│ ───────▶│──────────────────────────│
-│ id : Long           │         │ id : String (UUID)        │
-│ name : String       │         │ balance : double          │
-│ email : String      │         │ status : AccountStatus    │
-│ bankAccounts : List │         │ customer : Customer       │
-└─────────────────────┘         └──────────────────────────┘
-                                          │ 1
-                                          │
-                                          ▼ *
-                                ┌──────────────────────────┐
-                                │        Operation          │
-                                │──────────────────────────│
-                                │ id : Long                 │
-                                │ operationDate : Date      │
-                                │ amount : double           │
-                                │ type : OperationType      │
-                                │ bankAccount : BankAccount │
-                                └──────────────────────────┘
+This project is a comprehensive **Digital Banking Solution** designed to modernize financial operations. It bridges the gap between traditional banking management and AI-driven insights. Whether it's managing customer lifecycles, executing complex inter-account transfers, or querying an AI about financial trends, this platform provides a unified, secure, and highly responsive experience.
 
-Enums:
-  OperationType  → DEBIT | CREDIT | TRANSFER
-  AccountStatus  → CREATED | ACTIVATED
+---
 
-DTOs:
-  CustomerDTO, BankAccountDTO, AccountHistoryDTO, AccountOperationDTO
+## 🚀 Key Features
+
+### 🏦 Core Banking Engine
+- **Multi-Account Support**: Manage both **Current** (with overdraft) and **Saving** (with interest rates) accounts.
+- **Transaction Engine**: Atomic **Credit, Debit, and Transfer** operations with full rollback protection.
+- **Audit Trails**: Every operation records the authenticated user who performed it for maximum accountability.
+
+### 🤖 Intelligent AI Assistant (The Brain)
+- **Mistral AI Integration**: A smart agent that understands your banking database.
+- **Natural Language Querying**: Ask *"Who is our top customer?"* or *"What is the balance of account X?"*.
+- **Direct Commands**: Quick access via `/accounts`, `/customers`, and `/history`.
+
+### 📊 Advanced Analytics Dashboard
+- **Financial Visuals**: Dynamic charts showing account distribution and operation trends using **ChartJS**.
+- **Real-time Statistics**: Instant visibility into total balances, customer growth, and system health.
+
+---
+
+## 🏗 Architecture
+
+```mermaid
+graph TD
+    User((User/Admin))
+    Web[Angular Frontend]
+    Gateway[Spring Security / JWT]
+    Core[Digital-Banking Backend]
+    Bot[Mistral AI Chatbot Service]
+    DB[(MySQL Database)]
+    AI[Mistral AI API / Ollama]
+
+    User <--> Web
+    Web <--> Gateway
+    Gateway <--> Core
+    Web <--> Bot
+    Bot <--> Core
+    Core <--> DB
+    Bot <--> AI
 ```
 
 ---
 
-## ⚙️ Getting Started
+## 📸 Visual Showcase
 
-### Prerequisites
-
-- Java 17+
-- Node.js 18+ & npm
-- Maven
-- Docker & Docker Compose
+<table border="0">
+  <tr>
+    <td><b align="center">📊 Real-time Dashboard</b><br><img src="./screenshots/localhost_4200_admin_dashboard%20.png" width="100%"></td>
+    <td><b align="center">🤖 AI Assistant</b><br><img src="./screenshots/7.png" width="100%"></td>
+  </tr>
+  <tr>
+    <td><b align="center">🔐 Secure Login</b><br><img src="./screenshots/Login.png" width="100%"></td>
+    <td><b align="center">🏧 Financial Operations</b><br><img src="./screenshots/3.png" width="100%"></td>
+  </tr>
+</table>
 
 ---
 
-### 🐳 Step 1 — Start the Database (Docker)
+## 🛠 Tech Stack
 
-The `docker-compose.yml` in the `backend/` folder runs **MySQL** and **phpMyAdmin** only. The Spring Boot app runs locally via Maven.
+### Frontend
+- **Framework**: Angular 16 (Reactive Architecture)
+- **Styling**: Bootstrap 5 + Vanilla CSS (Premium Customization)
+- **Charts**: ng2-charts (ChartJS)
+- **Icons**: Bootstrap Icons / Lucide
 
+### Backend
+- **Core**: Spring Boot 3.2 (Java 17)
+- **Security**: Spring Security + JWT (Stateless)
+- **AI**: Spring AI (Mistral Integration)
+- **Database**: Spring Data JPA + MySQL
+- **Validation**: Lombok + Jakarta Validation
+
+---
+
+## ⚙️ Installation
+
+### 1️⃣ Clone the Repository
 ```bash
-# Clone the repository
 git clone https://github.com/yousseffalag/Digital-Banking-APP.git
-cd Digital-Banking-APP/backend
-
-# Start MySQL + phpMyAdmin containers
-docker compose up -d
 ```
 
-This spins up:
-
-| Service | URL | Credentials |
-|---------|-----|-------------|
-| MySQL | `localhost:3306` | user: `root`, db: `ebank` |
-| phpMyAdmin | `http://localhost:8081` | user: `root` |
-
-To stop the containers:
-
-```bash
-docker compose down
-```
-
-To view container logs:
-
-```bash
-docker compose logs -f
-```
-
----
-
-### 🔧 Step 2 — Run the Backend
-
-```bash
-# Still inside the backend/ directory
-mvn spring-boot:run
-```
-
-The backend starts at → **`http://localhost:8085`**
-
-Make sure `application.properties` matches your Docker DB config:
-
+### 2️⃣ Database Configuration
+Create a database named `ebank` in MySQL and update `backend/src/main/resources/application.properties`:
 ```properties
-server.port=8085
-
 spring.datasource.url=jdbc:mysql://localhost:3306/ebank
-spring.datasource.username=root
-spring.datasource.password=
-spring.jpa.hibernate.ddl-auto=update
-
-jwt.secretKey=YOUR_SECRET_KEY_MIN_32_CHARS
+spring.datasource.username=YOUR_USER
+spring.datasource.password=YOUR_PASS
 ```
+
+### 3️⃣ Start the Ecosystem
+| Component | Directory | Command |
+|-----------|-----------|---------|
+| **Backend** | `/backend` | `mvn spring-boot:run` |
+| **AI Bot** | `/Chat-bot` | `mvn spring-boot:run` |
+| **Frontend** | `/frontend` | `npm install && ng serve` |
 
 ---
 
-### 🌐 Step 3 — Run the Frontend
+## 🔐 Security Model
 
-```bash
-cd ../frontend
-npm install
-ng serve
-```
-
-Frontend starts at → **`http://localhost:4200`**
-
----
-
-## 🔑 Credentials (In-Memory)
-
-Defined in `SecurityConfig.java`:
-
-| Username | Password | Role |
-|----------|----------|------|
-| Ussef | 1234 | USER |
-| Achraf | 1234 | USER, ADMIN |
-
----
-
-## 📖 Swagger API Documentation
-
-Once the backend is running, open:
-
-```
-http://localhost:8085/swagger-ui/index.html
-```
-
-Raw OpenAPI spec:
-
-```
-http://localhost:8085/v3/api-docs
-```
-
-### API Endpoints
-
-#### `security-controller`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/auth/login` | Authenticate and get JWT token |
-| GET | `/auth/profile` | Get current authenticated user profile |
-
-#### `customer-rest-controller`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/customers` | List all customers (supports keyword search) |
-| GET | `/customers/{id}` | Get customer by ID |
-| POST | `/customers` | Create a new customer |
-| PUT | `/customers/{customerId}` | Update an existing customer |
-| DELETE | `/customers/{id}` | Delete a customer |
-
-#### `bank-account-rest-api`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/accounts` | List all bank accounts |
-| GET | `/accounts/{accountId}` | Get account by ID |
-| GET | `/accounts/{accountId}/operations` | Get all operations for an account |
-| GET | `/accounts/{accountId}/pageOperations` | Get paginated operations for an account |
-
-### Schemas
-
-| Schema | Description |
-|--------|-------------|
-| `CustomerDTO` | Customer data transfer object |
-| `BankAccountDTO` | Bank account data transfer object |
-| `AccountHistoryDTO` | Paginated account history with balance |
-| `AccountOperationDTO` | Individual operation detail |
-
-### Enabling Swagger (SpringDoc)
-
-Add to `pom.xml`:
-
-```xml
-<dependency>
-    <groupId>org.springdoc</groupId>
-    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    <version>2.3.0</version>
-</dependency>
-```
-
-Add to `application.properties`:
-
-```properties
-springdoc.api-docs.path=/v3/api-docs
-springdoc.swagger-ui.path=/swagger-ui.html
-```
-
-Permit Swagger routes in `SecurityConfig.java`:
-
-```java
-.authorizeHttpRequests(ar -> ar.requestMatchers(
-        "/auth/login/**",
-        "/v3/api-docs/**",
-        "/swagger-ui/**",
-        "/swagger-ui.html"
-).permitAll())
-.authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
-```
-
----
-
-## 🗺️ Application Routes
-
-| Route | Description |
-|-------|-------------|
-| `/login` | Admin authentication |
-| `/admin/customers` | List & manage customers |
-| `/admin/new-customer` | Create a new customer |
-| `/admin/accounts` | Search accounts & perform operations |
-
----
-
-## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
+The application implements a stateless **JWT (JSON Web Token)** security model:
+- **Authentication**: Credentials-based login returning a signed JWT.
+- **Authorization**: Role-Based Access Control (RBAC).
+  - `USER`: Can view accounts and personal details.
+  - `ADMIN`: Full access to Customer CRUD, Account creation, and Operations.
+- **Protection**: CORS enabled, CSRF protection, and Bcrypt password hashing.
 
 ---
 
 ## 👤 Author
 
 **Youssef Falag**
-GitHub: [@yousseffalag](https://github.com/yousseffalag)
+- 🌍 [GitHub Profile](https://github.com/yousseffalag)
+- 💼 [LinkedIn](https://linkedin.com/in/youssef-falag)
+- 📧 [Email](mailto:youssef.falag@example.com)
+
+---
+<div align="center">
+  <sub>Built with passion for the Future of Banking 🏦✨</sub>
+</div>
