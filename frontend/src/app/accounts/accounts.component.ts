@@ -32,7 +32,7 @@ export class AccountsComponent implements OnInit {
     })}
 
   handleSearchAccount() {
-    let accountId : string =this.accountFormGroup.value.accountId;
+    let accountId : string =this.accountFormGroup.value.accountId.trim();
     this.accountObservable=this.accountService.getAccount(accountId,this.currentPage, this.pageSize).pipe(
       catchError(err => {
         this.errorMessage=err.message;
@@ -47,11 +47,11 @@ export class AccountsComponent implements OnInit {
   }
 
   handleAccountOperation() {
-    let accountId :string = this.accountFormGroup.value.accountId;
+    let accountId :string = this.accountFormGroup.value.accountId.trim();
     let operationType=this.operationFromGroup.value.operationType;
     let amount :number =this.operationFromGroup.value.amount;
     let description :string =this.operationFromGroup.value.description;
-    let accountDestination :string =this.operationFromGroup.value.accountDestination;
+    let accountDestination :string = this.operationFromGroup.value.accountDestination ? this.operationFromGroup.value.accountDestination.trim() : null;
     if(operationType=='DEBIT'){
       this.accountService.debit(accountId, amount,description).subscribe({
         next : (data)=>{
@@ -88,5 +88,15 @@ export class AccountsComponent implements OnInit {
       });
 
     }
+  }
+
+  handleUpdateStatus(status : string) {
+    let accountId : string =this.accountFormGroup.value.accountId.trim();
+    this.accountService.updateStatus(accountId, status).subscribe({
+        next : (data) => {
+            alert("Account status updated to " + status);
+            this.handleSearchAccount();
+        }
+    });
   }
 }

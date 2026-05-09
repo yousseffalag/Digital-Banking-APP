@@ -1,54 +1,77 @@
-<div class="container mt-2">
-  <ng-container *ngIf="customers | async as listCustomers; else failureOrLading">
-    <div class="card">
-      <div class="card-header">Customers</div>
-      <div class="card-body">
-        <div *ngIf="searchFormGroup">
-          <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchCustomers()">
-            <div class="input-group">
-              <label class="input-group-text">Keyword :</label>
-              <input type="text" formControlName="keyword" class="form-control">
-              <button class="btn btn-info">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-          </form>
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">Customers</h2>
+      <p class="text-secondary small mb-0">Manage and search your customer directory</p>
+    </div>
+    <button *ngIf="authService.roles?.includes('ADMIN')" class="btn btn-primary d-flex align-items-center" routerLink="/admin/new-customer">
+      <i class="bi bi-plus-lg me-2"></i> Add Customer
+    </button>
+  </div>
+
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+      <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchCustomers()">
+        <div class="input-group">
+          <span class="input-group-text bg-transparent border-end-0 px-3"><i class="bi bi-search text-secondary"></i></span>
+          <input type="text" formControlName="keyword" class="form-control border-start-0 ps-0" placeholder="Search by name or email...">
+          <button class="btn btn-primary px-4" type="submit">Search</button>
         </div>
-        <table class="table">
+      </form>
+    </div>
+  </div>
+
+  <ng-container *ngIf="customers | async as listCustomers; else failureOrLoding">
+    <div class="card shadow-sm border-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
           <thead>
-          <tr>
-            <th>ID</th><th>Name</th><th>Email</th>
-          </tr>
+            <tr>
+              <th class="ps-4">Customer</th>
+              <th>Email</th>
+              <th class="text-center">Actions</th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let c of customers | async">
-            <td>{{c.id}}</td>
-            <td>{{c.name}}</td>
-            <td>{{c.email}}</td>
-            <td>
-              <button (click)="handleDeleteCustomer(c)" class="btn btn-danger">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-            <td>
-              <button (click)="handleCustomerAccounts(c)" class="btn btn-success">
-                Accounts
-              </button>
-            </td>
-          </tr>
+            <tr *ngFor="let c of listCustomers">
+              <td class="ps-4">
+                <div class="d-flex align-items-center">
+                  <img src="https://ui-avatars.com/api/?name={{c.name}}&background=random" class="rounded-circle me-3" width="35">
+                  <span class="fw-bold">{{c.name}}</span>
+                </div>
+              </td>
+              <td>{{c.email}}</td>
+              <td class="text-center">
+                <button (click)="handleCustomerAccounts(c)" class="btn btn-light btn-sm me-2 text-primary" title="View Accounts">
+                  <i class="bi bi-wallet2"></i>
+                </button>
+                <button *ngIf="authService.roles?.includes('ADMIN')" (click)="handleEditCustomer(c)" class="btn btn-light btn-sm me-2 text-info" title="Edit">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button *ngIf="authService.roles?.includes('ADMIN')" (click)="handleDeleteCustomer(c)" class="btn btn-light btn-sm text-danger" title="Delete">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
   </ng-container>
-  <ng-template #failureOrLading>
-    <ng-container *ngIf="errorMessage; else loading">
-      <div class="text-danger">
-        {{errorMessage}}
+
+  <ng-template #failureOrLoding>
+    <div *ngIf="errorMessage" class="alert alert-danger rounded-3 p-4">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-exclamation-triangle-fill fs-3 me-3"></i>
+        <div>
+          <h6 class="fw-bold mb-0">System Error</h6>
+          <small>{{errorMessage}}</small>
+        </div>
       </div>
-    </ng-container>
-    <ng-template #loading>
-      Loading .....
-    </ng-template>
+    </div>
+    <div *ngIf="!errorMessage" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-3 text-secondary">Loading customers...</p>
+    </div>
   </ng-template>
 </div>

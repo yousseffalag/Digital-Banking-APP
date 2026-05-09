@@ -9,20 +9,26 @@ import { AdminTemplateComponent } from './admin-template/admin-template.componen
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { AuthorizationGuard } from './guards/authorization.guard';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
+import {DashboardComponent} from "./dashboard/dashboard.component";
+import {ProfileComponent} from "./profile/profile.component";
+import {ChatbotComponent} from "./chatbot/chatbot.component";
+import {EditCustomerComponent} from "./edit-customer/edit-customer.component";
 
 const routes: Routes = [
-
+  { path :"login", component : LoginComponent},
+  { path :"", redirectTo : "login", pathMatch : "full"},
   {path :"admin" , component: AdminTemplateComponent, canActivate : [AuthenticationGuard],
     children :[
       { path :"customers", component : CustomersComponent},
       { path :"accounts", component : AccountsComponent},
       { path :"new-customer", component : NewCustomerComponent, canActivate :[AuthorizationGuard], data : {roles : "ADMIN"}},
+      { path :"edit-customer/:id", component : EditCustomerComponent, canActivate :[AuthorizationGuard], data : {roles : "ADMIN"}},
       { path :"customer-accounts/:id", component : CustomerAccountsComponent},
       { path :"notAuthorized", component : NotAuthorizedComponent},
+      { path :"dashboard", component : DashboardComponent},
+      { path :"profile", component : ProfileComponent},
+      { path :"chatbot", component : ChatbotComponent},
   ] },
-  
-  { path :"login", component : LoginComponent},
-  { path :"", redirectTo : "login", pathMatch : "full"},
 ];
 
 @NgModule({
