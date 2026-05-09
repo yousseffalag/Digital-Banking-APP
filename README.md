@@ -231,7 +231,7 @@ A comprehensive walkthrough of the application's user interface and integrations
 ### 🔐 Secure Authentication Portal
 *JWT-secured entry point with role-based access control (RBAC).*
 <br>
-<img src="./screenshots/Login.png" width="100%" alt="Login Screen">
+<img src="./screenshots/login.png" width="100%" alt="Login Screen">
 
 ---
 
